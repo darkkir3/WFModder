@@ -1,4 +1,4 @@
-package me.darkkir3.wfmodder.utils;
+package me.darkkir3.wfmodder.armor;
 
 public final class ArmorUtils 
 {

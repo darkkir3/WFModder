@@ -1,10 +1,12 @@
 package me.darkkir3.wfmodder;
 
 import me.darkkir3.wfmodder.armor.ArmorTypes;
+import me.darkkir3.wfmodder.armor.ArmorUtils;
 import me.darkkir3.wfmodder.health.HealthTypes;
+import me.darkkir3.wfmodder.health.HealthUtils;
 import me.darkkir3.wfmodder.shield.ShieldTypes;
+import me.darkkir3.wfmodder.shield.ShieldUtils;
 import me.darkkir3.wfmodder.status.IStatusType;
-import me.darkkir3.wfmodder.utils.ArmorUtils;
 
 public class Enemy 
 {
@@ -23,7 +25,20 @@ public class Enemy
 	
 	public void applyScaling(float baseLevel, float currentLevel)
 	{
-		this.armor = ArmorUtils.getTotalArmorOf(this.armor, baseLevel, currentLevel);
+		if(this.armor > 0f)
+		{
+			this.armor = ArmorUtils.getTotalArmorOf(this.armor, baseLevel, currentLevel);
+		}
+		
+		if(this.shield > 0f)
+		{
+			this.shield = ShieldUtils.getTotalShieldOf(this.shield, baseLevel, currentLevel);
+		}
+		
+		if(this.health > 0f)
+		{
+			this.health = HealthUtils.getTotalHealthOf(this.health, baseLevel, currentLevel);
+		}
 	}
 	
 	public float getHealth()

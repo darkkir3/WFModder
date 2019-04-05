@@ -1,11 +1,11 @@
-package me.darkkir3.wfmodder.utils;
+package me.darkkir3.wfmodder.shield;
 
 public final class ShieldUtils 
 {
 	private ShieldUtils() {}
 	
 	/**Calculates the total shield an shielded enemy should spawn in
-	 * @param baseArmor the base shield the enemy should spawn at if their level equals baseLevel
+	 * @param baseShield the base shield the enemy should spawn at if their level equals baseLevel
 	 * @param baseLevel the initial level an enemy can spawn in
 	 * @param currentLevel the modified level of the enemy
 	 * @return the total shield of the enemy
