@@ -6,7 +6,6 @@ import me.darkkir3.wfmodder.health.HealthTypes;
 import me.darkkir3.wfmodder.health.HealthUtils;
 import me.darkkir3.wfmodder.shield.ShieldTypes;
 import me.darkkir3.wfmodder.shield.ShieldUtils;
-import me.darkkir3.wfmodder.status.IStatusType;
 import me.darkkir3.wfmodder.status.StatusTypes;
 import me.darkkir3.wfmodder.weapons.BaseWeapon;
 
@@ -103,7 +102,7 @@ public class Enemy
 		this.shieldType = shieldType;
 	}
 	
-	public float getMultiplierAgainst(IStatusType statusType)
+	public float getMultiplierAgainst(StatusTypes statusType)
 	{
 		float statusTypeMultiplier = 1f;
 		if(this.shield > 0f && this.shieldType != ShieldTypes.NONE)

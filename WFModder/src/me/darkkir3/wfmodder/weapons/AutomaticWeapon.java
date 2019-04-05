@@ -1,8 +1,10 @@
 package me.darkkir3.wfmodder.weapons;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import me.darkkir3.wfmodder.Enemy;
+import me.darkkir3.wfmodder.shield.ShieldTypes;
 import me.darkkir3.wfmodder.status.StatusTypes;
 import me.darkkir3.wfmodder.utils.DamageUtils;
 
@@ -18,9 +20,17 @@ public class AutomaticWeapon extends BaseWeapon
 	 * our current magazine size
 	 */
 	private float currentMagazine = 0f;
+	/**
+	 * delay between shots
+	 */
 	private float inverseFireRate = 0f;
 	
 	private HashMap<StatusTypes, Float> statusWeightTable;
+	
+	/**
+	 * treat every damage instance as headshot damage
+	 */
+	private boolean useHeadshots = false;
 	
 	public AutomaticWeapon(HashMap<StatusTypes, Float> baseDamageTable, float accuracy, float reloadSpeed, float magazine, float critical, float status, float fireRate, float multishot)
 	{
@@ -80,7 +90,24 @@ public class AutomaticWeapon extends BaseWeapon
 			this.shotMarker = currentTime;
 			this.magazine -= 1f;
 			
-			//TODO: apply status and damage
+			for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())
+			{
+				float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
+				if(enemy.getShield() > 0f && enemy.getShieldType() != ShieldTypes.NONE)
+				{
+					enemy.setShield(enemy.getShield() - modifiedDamage);
+					if(enemy.getShield() < 0f)
+					{
+						float damageToHealth = -enemy.getShield();
+						enemy.setHealth(enemy.getHealth() - damageToHealth);
+					}
+				}
+				else
+				{
+					enemy.setHealth(enemy.getHealth() - modifiedDamage);
+				}
+			}
+			
 			if(DamageUtils.isStatusProcced(this.statusChance))
 			{
 				StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);

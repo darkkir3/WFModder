@@ -1,6 +1,6 @@
 package me.darkkir3.wfmodder.health;
 
-import me.darkkir3.wfmodder.status.IStatusType;
+import me.darkkir3.wfmodder.status.StatusTypes;
 
 public enum HealthTypes 
 {
@@ -14,13 +14,13 @@ public enum HealthTypes
 	INFESTED_SINEW,
 	NONE;
 	
-	public float getMultiplierAgainst(IStatusType statusType) 
+	public float getMultiplierAgainst(StatusTypes statusType) 
 	{
 		float defaultMultiplier = 1f;
 		switch(this)
 		{
 		case FLESH:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case IMPACT:
 					defaultMultiplier -= 0.25f;
@@ -42,7 +42,7 @@ public enum HealthTypes
 			}
 		break;
 		case CLONED_FLESH:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case IMPACT:
 					defaultMultiplier -= 0.25f;
@@ -67,7 +67,7 @@ public enum HealthTypes
 			}
 			break;
 		case MACHINERY:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case IMPACT:
 					defaultMultiplier += 0.25f;
@@ -92,7 +92,7 @@ public enum HealthTypes
 			}
 			break;
 		case ROBOTIC:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case PUNCTURE:
 					defaultMultiplier += 0.25f;
@@ -114,7 +114,7 @@ public enum HealthTypes
 			}
 			break;
 		case INFESTED:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case SLASH:
 					defaultMultiplier += 0.25f;
@@ -136,7 +136,7 @@ public enum HealthTypes
 			}
 			break;
 		case INFESTED_FLESH:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case SLASH:
 					defaultMultiplier += 0.5f;
@@ -155,7 +155,7 @@ public enum HealthTypes
 			}
 			break;
 		case FOSSILIZED:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case SLASH:
 					defaultMultiplier += 0.15f;
@@ -182,7 +182,7 @@ public enum HealthTypes
 			}
 			break;
 		case INFESTED_SINEW:
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case PUNCTURE:
 					defaultMultiplier += 0.25f;

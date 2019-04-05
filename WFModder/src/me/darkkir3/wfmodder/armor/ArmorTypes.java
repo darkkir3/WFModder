@@ -1,6 +1,6 @@
 package me.darkkir3.wfmodder.armor;
 
-import me.darkkir3.wfmodder.status.IStatusType;
+import me.darkkir3.wfmodder.status.StatusTypes;
 
 public enum ArmorTypes 
 {
@@ -8,12 +8,12 @@ public enum ArmorTypes
 	ALLOY,
 	NONE;
 	
-	public float getMultiplierAgainst(IStatusType statusType) 
+	public float getMultiplierAgainst(StatusTypes statusType) 
 	{
 		float defaultMultiplier = 1f;
 		if(this == ALLOY)
 		{
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case PUNCTURE:
 					defaultMultiplier += 0.15f;
@@ -38,7 +38,7 @@ public enum ArmorTypes
 		}
 		else if(this == FERRITE)
 		{
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case PUNCTURE:
 					defaultMultiplier += 0.5f;

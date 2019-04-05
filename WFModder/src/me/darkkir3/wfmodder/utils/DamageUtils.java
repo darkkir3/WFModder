@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import me.darkkir3.wfmodder.Enemy;
+import me.darkkir3.wfmodder.armor.ArmorTypes;
 import me.darkkir3.wfmodder.status.StatusTypes;
 
 public final class DamageUtils 
@@ -81,5 +83,44 @@ public final class DamageUtils
 		}
 		
 		return statusTypeToReturn;
+	}
+	
+	/** simulates a direct hit and calculates the proper damage to apply without using crit and/or status effects
+	 * @param enemy the enemy to hit
+	 * @param statusType the status type to use
+	 * @param damage the damage to hit with
+	 * @param damageModifiers a list of modifiers that change the base dmg (for example critical hits or rhino roar)
+	 * @return the damage to apply to the target enemy
+	 */
+	public static float calculateDamageAgainst(Enemy enemy, StatusTypes statusType, float damage, float... damageModifiers)
+	{
+		float result = damage;
+		
+		//we are hitting on armor, apply the corresponding damage reduction
+		if(enemy.getShield() <= 0f && enemy.getArmor() > 0f && enemy.getArmorType() != ArmorTypes.NONE)
+		{
+			float armorModifier = enemy.getMultiplierAgainst(statusType) - 1f;
+			float healthModifier = enemy.getHealthType().getMultiplierAgainst(statusType) - 1f;
+		
+			float armor = enemy.getArmor();
+			
+			float damageModifier = (1f + healthModifier) * (1f + armorModifier);
+			
+			//apply other modifiers
+			for(float value : damageModifiers)
+			{
+				damageModifier *= (1f + value);
+			}
+			
+			//reduce by armor
+			damageModifier /= 1 + ((armor * (1 - armorModifier)) / 300f);
+			result *= damageModifier;
+		}
+		else
+		{
+			result *= enemy.getMultiplierAgainst(statusType);
+		}
+		
+		return result;
 	}
 }

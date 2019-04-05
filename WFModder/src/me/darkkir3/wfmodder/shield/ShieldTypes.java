@@ -1,6 +1,6 @@
 package me.darkkir3.wfmodder.shield;
 
-import me.darkkir3.wfmodder.status.IStatusType;
+import me.darkkir3.wfmodder.status.StatusTypes;
 
 public enum ShieldTypes 
 {
@@ -8,12 +8,12 @@ public enum ShieldTypes
 	PROTO_SHIELD,
 	NONE;
 	
-	public float getMultiplierAgainst(IStatusType statusType) 
+	public float getMultiplierAgainst(StatusTypes statusType) 
 	{
 		float defaultMultiplier = 1f;
 		if(this == SHIELD)
 		{
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case IMPACT:
 					defaultMultiplier += 0.5f;
@@ -35,7 +35,7 @@ public enum ShieldTypes
 		}
 		else if(this == PROTO_SHIELD)
 		{
-			switch(statusType.getStatusType())
+			switch(statusType)
 			{
 				case IMPACT:
 					defaultMultiplier += 0.15f;
