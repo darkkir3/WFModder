@@ -16,5 +16,21 @@ public enum StatusTypes
 	RADIATION,
 	VIRAL,
 	TRUE,
-	VOID
+	VOID;
+	
+	/**IPS
+	 * @return
+	 */
+	public boolean isPhysical()
+	{
+		return this == IMPACT || this == PUNCTURE || this == SLASH;
+	}
+	
+	/**Anything that is not physical or void or finisher dmg is considered elemental
+	 * @return
+	 */
+	public boolean isElemental()
+	{
+		return this != VOID && this != TRUE && !this.isPhysical();
+	}
 }

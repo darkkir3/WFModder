@@ -7,6 +7,8 @@ import me.darkkir3.wfmodder.health.HealthUtils;
 import me.darkkir3.wfmodder.shield.ShieldTypes;
 import me.darkkir3.wfmodder.shield.ShieldUtils;
 import me.darkkir3.wfmodder.status.IStatusType;
+import me.darkkir3.wfmodder.status.StatusTypes;
+import me.darkkir3.wfmodder.weapons.BaseWeapon;
 
 public class Enemy 
 {
@@ -118,5 +120,10 @@ public class Enemy
 		}
 		
 		return statusTypeMultiplier;
+	}
+	
+	public void applyStatus(StatusTypes statusType, BaseWeapon baseWeapon)
+	{
+		//TODO: implement status procs
 	}
 }
