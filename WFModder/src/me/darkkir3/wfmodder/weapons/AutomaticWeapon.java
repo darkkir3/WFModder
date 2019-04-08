@@ -84,23 +84,27 @@ public class AutomaticWeapon extends BaseWeapon
 			return;
 		}
 		
-		//shoot a bullet
+		//shoot a single bullet (without multishot)
 		if(currentTime - shotMarker > inverseFireRate)
 		{
 			this.shotMarker = currentTime;
 			this.magazine -= 1f;
 			
+			float critMultiplier = DamageUtils.getCritMultiplier(this.criticalRate, this.criticalDamage, useHeadshots);
+			
 			for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())
 			{
 				float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
+				modifiedDamage *= critMultiplier;
 				if(enemy.getShield() > 0f && enemy.getShieldType() != ShieldTypes.NONE)
 				{
 					if(enemy.getShield() < modifiedDamage)
 					{
-						//hit the health as well
+						//hit the health as well with the remaining damage
 						float damageSpilled = 1f - (enemy.getShield() / modifiedDamage);
 						enemy.setShield(0f);
 						float damageToHealth = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue() * damageSpilled, useHeadshots ? 1f : 0f);
+						damageToHealth *= critMultiplier;
 						enemy.setHealth(enemy.getHealth() - damageToHealth);
 					}
 					else

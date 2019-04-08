@@ -33,7 +33,7 @@ public abstract class BaseWeapon
 	 */
 	protected float criticalRate;
 	/**
-	 * the listed damage multiplier for critical hits
+	 * the listed damage multiplier for critical hits (as shown in the modding menu)
 	 */
 	protected float criticalDamage;
 	/**

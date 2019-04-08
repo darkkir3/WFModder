@@ -58,6 +58,39 @@ public final class DamageUtils
 		return weightingMap;
 	}
 	
+	/**applies the crit multiplier to the specified damage value
+	 * @param damage the damage to hit with
+	 * @param critChance the crit chance to use (1f = 100%)
+	 * @param critDamage the crit multiplier to use
+	 * @return
+	 */
+	public static float getCritMultiplier(float critChance, float critDamage, boolean isHeadshot)
+	{
+		float result = 1f;
+		
+		//yellow crit = tier 0, orange crit = tier 1, ...
+		float critTier = (float)Math.floor(critChance);
+		
+		boolean didCrit = rand.nextFloat() <= (critChance % 1f);
+		
+		//chance to hit the next crit tier
+		if(critChance > 1f && didCrit)
+		{
+			critTier += 1f;
+		}
+		else if(critChance < 1f && !didCrit)
+		{
+			//crit chance was below 100% and we did not land a crit
+			return result;
+		}
+		
+		//headshots double dip into both base dmg as well as crit
+		float critMultiplier = (1f + critTier * ((isHeadshot ? 2f : 1f) * critDamage));
+		result *= critMultiplier;
+		
+		return result;
+	}
+	
 	public static boolean isStatusProcced(float statusChance)
 	{
 		return rand.nextFloat() <= statusChance;
