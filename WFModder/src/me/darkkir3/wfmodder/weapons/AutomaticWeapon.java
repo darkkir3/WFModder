@@ -98,19 +98,19 @@ public class AutomaticWeapon extends BaseWeapon
 			
 			for(int i = 0; i < bulletsToShoot; i++)
 			{
-				this.fireSingleBullet(enemy);
+				this.fireSingleBullet(currentTime, enemy);
 			}
 		}
 	}
 
-	private void fireSingleBullet(Enemy enemy) 
+	private void fireSingleBullet(float currentTime, Enemy enemy) 
 	{
 		float critMultiplier = DamageUtils.getCritMultiplier(this.criticalRate, this.criticalDamage, useHeadshots);
 		
 		if(DamageUtils.isStatusProcced(this.statusChance))
 		{
 			StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);
-			enemy.applyStatus(statusToUse, critMultiplier, useHeadshots, this);
+			enemy.applyStatus(currentTime, statusToUse, critMultiplier, useHeadshots, this);
 		}
 		
 		for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())

@@ -44,6 +44,12 @@ public abstract class BaseWeapon
 	 * fire rate (shots per seconds; also influences charge rate)
 	 */
 	protected float fireRate;
+	
+	/**
+	 * status duration multiplier
+	 */
+	protected float statusDuration;
+	
 	/**
 	 * innate multishot on the weapon (1 = fires a single bullet)
 	 */
@@ -55,4 +61,12 @@ public abstract class BaseWeapon
 	protected float multishotModifier = 1f;
 	
 	public abstract void updateWeaponState(Enemy enemy, float currentTime);
+	
+	/**status duration multiplier
+	 * @return
+	 */
+	public float getStatusDuration()
+	{
+		return this.statusDuration;
+	}
 }
