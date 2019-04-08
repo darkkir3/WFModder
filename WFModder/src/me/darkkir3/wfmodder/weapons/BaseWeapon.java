@@ -45,9 +45,14 @@ public abstract class BaseWeapon
 	 */
 	protected float fireRate;
 	/**
-	 * innate multishot on the weapon (1f = 100%)
+	 * innate multishot on the weapon (1 = fires a single bullet)
 	 */
-	protected float multishot;
+	protected int multishot = 1;
+	
+	/**
+	 * the modded multishot modifier as it appears in the modding stats (1f = fires base bullets)
+	 */
+	protected float multishotModifier = 1f;
 	
 	public abstract void updateWeaponState(Enemy enemy, float currentTime);
 }

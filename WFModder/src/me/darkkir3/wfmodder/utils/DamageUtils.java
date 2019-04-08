@@ -91,6 +91,12 @@ public final class DamageUtils
 		return result;
 	}
 	
+	public static float getMultishotBullets(float multishotModifier)
+	{
+		boolean nextMultishotTier = rand.nextFloat() <= (multishotModifier % 1f);
+		return (float) (nextMultishotTier ? Math.ceil(multishotModifier) : Math.floor(multishotModifier));
+	}
+	
 	public static boolean isStatusProcced(float statusChance)
 	{
 		return rand.nextFloat() <= statusChance;

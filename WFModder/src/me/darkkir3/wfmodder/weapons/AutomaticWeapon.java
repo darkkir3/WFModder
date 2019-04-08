@@ -32,7 +32,7 @@ public class AutomaticWeapon extends BaseWeapon
 	 */
 	private boolean useHeadshots = false;
 	
-	public AutomaticWeapon(HashMap<StatusTypes, Float> baseDamageTable, float accuracy, float reloadSpeed, float magazine, float critical, float status, float fireRate, float multishot)
+	public AutomaticWeapon(HashMap<StatusTypes, Float> baseDamageTable, float accuracy, float reloadSpeed, float magazine, float critical, float status, float fireRate, int multishot, float multishotModifier)
 	{
 		this.baseDamage = baseDamageTable;
 		this.accuracy = accuracy;
@@ -42,6 +42,7 @@ public class AutomaticWeapon extends BaseWeapon
 		this.statusChance = status;
 		this.fireRate = fireRate;
 		this.multishot = multishot;
+		this.multishotModifier = multishotModifier;
 		
 		this.currentMagazine = this.magazine;
 	}
@@ -90,39 +91,52 @@ public class AutomaticWeapon extends BaseWeapon
 			this.shotMarker = currentTime;
 			this.magazine -= 1f;
 			
-			float critMultiplier = DamageUtils.getCritMultiplier(this.criticalRate, this.criticalDamage, useHeadshots);
+			int bulletsPerShot = this.multishot;
+			float timesToShoot = DamageUtils.getMultishotBullets(this.multishotModifier);
 			
-			for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())
+			int bulletsToShoot = bulletsPerShot * (int)timesToShoot;
+			
+			for(int i = 0; i < bulletsToShoot; i++)
 			{
-				float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
-				modifiedDamage *= critMultiplier;
-				if(enemy.getShield() > 0f && enemy.getShieldType() != ShieldTypes.NONE)
+				this.fireSingleBullet(enemy);
+			}
+		}
+	}
+
+	private void fireSingleBullet(Enemy enemy) 
+	{
+		float critMultiplier = DamageUtils.getCritMultiplier(this.criticalRate, this.criticalDamage, useHeadshots);
+		
+		for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())
+		{
+			float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
+			modifiedDamage *= critMultiplier;
+			if(enemy.getShield() > 0f && enemy.getShieldType() != ShieldTypes.NONE)
+			{
+				if(enemy.getShield() < modifiedDamage)
 				{
-					if(enemy.getShield() < modifiedDamage)
-					{
-						//hit the health as well with the remaining damage
-						float damageSpilled = 1f - (enemy.getShield() / modifiedDamage);
-						enemy.setShield(0f);
-						float damageToHealth = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue() * damageSpilled, useHeadshots ? 1f : 0f);
-						damageToHealth *= critMultiplier;
-						enemy.setHealth(enemy.getHealth() - damageToHealth);
-					}
-					else
-					{
-						enemy.setShield(enemy.getShield() - modifiedDamage);
-					}
+					//hit the health as well with the remaining damage
+					float damageSpilled = 1f - (enemy.getShield() / modifiedDamage);
+					enemy.setShield(0f);
+					float damageToHealth = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue() * damageSpilled, useHeadshots ? 1f : 0f);
+					damageToHealth *= critMultiplier;
+					enemy.setHealth(enemy.getHealth() - damageToHealth);
 				}
 				else
 				{
-					enemy.setHealth(enemy.getHealth() - modifiedDamage);
+					enemy.setShield(enemy.getShield() - modifiedDamage);
 				}
 			}
-			
-			if(DamageUtils.isStatusProcced(this.statusChance))
+			else
 			{
-				StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);
-				enemy.applyStatus(statusToUse, this);
+				enemy.setHealth(enemy.getHealth() - modifiedDamage);
 			}
+		}
+		
+		if(DamageUtils.isStatusProcced(this.statusChance))
+		{
+			StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);
+			enemy.applyStatus(statusToUse, this);
 		}
 	}
 
