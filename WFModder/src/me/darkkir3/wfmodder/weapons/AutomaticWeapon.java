@@ -95,11 +95,17 @@ public class AutomaticWeapon extends BaseWeapon
 				float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
 				if(enemy.getShield() > 0f && enemy.getShieldType() != ShieldTypes.NONE)
 				{
-					enemy.setShield(enemy.getShield() - modifiedDamage);
-					if(enemy.getShield() < 0f)
+					if(enemy.getShield() < modifiedDamage)
 					{
-						float damageToHealth = -enemy.getShield();
+						//hit the health as well
+						float damageSpilled = 1f - (enemy.getShield() / modifiedDamage);
+						enemy.setShield(0f);
+						float damageToHealth = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue() * damageSpilled, useHeadshots ? 1f : 0f);
 						enemy.setHealth(enemy.getHealth() - damageToHealth);
+					}
+					else
+					{
+						enemy.setShield(enemy.getShield() - modifiedDamage);
 					}
 				}
 				else
