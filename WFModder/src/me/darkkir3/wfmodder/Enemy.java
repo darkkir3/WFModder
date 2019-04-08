@@ -121,7 +121,7 @@ public class Enemy
 		return statusTypeMultiplier;
 	}
 	
-	public void applyStatus(StatusTypes statusType, BaseWeapon baseWeapon)
+	public void applyStatus(StatusTypes statusType, float critMultiplier, boolean isHeadshot, BaseWeapon baseWeapon)
 	{
 		//TODO: implement status procs
 	}

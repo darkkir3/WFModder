@@ -107,6 +107,12 @@ public class AutomaticWeapon extends BaseWeapon
 	{
 		float critMultiplier = DamageUtils.getCritMultiplier(this.criticalRate, this.criticalDamage, useHeadshots);
 		
+		if(DamageUtils.isStatusProcced(this.statusChance))
+		{
+			StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);
+			enemy.applyStatus(statusToUse, critMultiplier, useHeadshots, this);
+		}
+		
 		for(Entry<StatusTypes, Float> entry : this.baseDamage.entrySet())
 		{
 			float modifiedDamage = DamageUtils.calculateDamageAgainst(enemy, entry.getKey(), entry.getValue(), useHeadshots ? 1f : 0f);
@@ -131,12 +137,6 @@ public class AutomaticWeapon extends BaseWeapon
 			{
 				enemy.setHealth(enemy.getHealth() - modifiedDamage);
 			}
-		}
-		
-		if(DamageUtils.isStatusProcced(this.statusChance))
-		{
-			StatusTypes statusToUse = DamageUtils.getStatusTypeProcced(this.statusWeightTable);
-			enemy.applyStatus(statusToUse, this);
 		}
 	}
 
