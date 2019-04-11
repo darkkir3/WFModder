@@ -69,4 +69,9 @@ public abstract class BaseWeapon
 	{
 		return this.statusDuration;
 	}
+	
+	public float getDamageForStatusType(StatusTypes statusType)
+	{
+		return this.baseDamage.get(statusType);
+	}
 }
