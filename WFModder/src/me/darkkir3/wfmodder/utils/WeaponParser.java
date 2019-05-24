@@ -3,6 +3,7 @@ package me.darkkir3.wfmodder.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import org.apache.commons.io.IOUtils;
@@ -57,9 +58,7 @@ public final class WeaponParser
 	public static ParsableWeapon fetchWeapon(String weaponName)
 	{
 		Gson gson = new Gson();
-		ParsableWeapon weapon = gson.fromJson(weaponList.get(weaponName), ParsableWeapon.class);
-		
-		return weapon;
+		return gson.fromJson(weaponList.get(weaponName), ParsableWeapon.class);
 	}
 	
 	private static String readFromURL(String url)
@@ -68,7 +67,7 @@ public final class WeaponParser
 		try
 		{
 			InputStream in = new URL(url).openStream();
-			result = IOUtils.toString(in, "UTF-8");
+			result = IOUtils.toString(in, StandardCharsets.UTF_8);
 			in.close();
 		} 
 		catch (IOException e) 

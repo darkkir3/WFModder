@@ -3,20 +3,20 @@ package me.darkkir3.wfmodder.status;
 public enum StatusTypes 
 {
 	IMPACT,
-	PUNCTURE,
 	SLASH,
+	PUNCTURE,
+	HEAT,
 	COLD,
 	ELECTRICITY,
-	HEAT,
 	TOXIN,
-	BLAST,
-	CORROSIVE,
-	GAS,
-	MAGNETIC,
-	RADIATION,
 	VIRAL,
-	TRUE,
-	VOID;
+	CORROSIVE,
+	RADIATION,
+	BLAST,
+	MAGNETIC,
+	GAS,
+	VOID,
+	TRUE;
 	
 	/**IPS
 	 * @return

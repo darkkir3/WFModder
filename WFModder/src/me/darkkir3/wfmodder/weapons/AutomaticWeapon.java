@@ -7,6 +7,7 @@ import me.darkkir3.wfmodder.Enemy;
 import me.darkkir3.wfmodder.shield.ShieldTypes;
 import me.darkkir3.wfmodder.status.StatusTypes;
 import me.darkkir3.wfmodder.utils.DamageUtils;
+import me.darkkir3.wfmodder.utils.ParsableWeapon;
 
 public class AutomaticWeapon extends BaseWeapon
 {
@@ -32,19 +33,11 @@ public class AutomaticWeapon extends BaseWeapon
 	 */
 	private boolean useHeadshots = false;
 	
-	public AutomaticWeapon(HashMap<StatusTypes, Float> baseDamageTable, float accuracy, float reloadSpeed, float magazine, float critical, float status, float fireRate, int multishot, float multishotModifier)
+	public AutomaticWeapon(ParsableWeapon weapon)
 	{
-		this.baseDamage = baseDamageTable;
-		this.accuracy = accuracy;
-		this.reloadSpeed = reloadSpeed;
-		this.magazine = magazine;
-		this.criticalRate = critical;
-		this.statusChance = status;
-		this.fireRate = fireRate;
-		this.multishot = multishot;
-		this.multishotModifier = multishotModifier;
-		
+		super(weapon);		
 		this.currentMagazine = this.magazine;
+		this.updateWeaponStats();
 	}
 	
 	public void updateWeaponStats()

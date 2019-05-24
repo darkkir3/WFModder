@@ -4,9 +4,26 @@ import java.util.HashMap;
 
 import me.darkkir3.wfmodder.Enemy;
 import me.darkkir3.wfmodder.status.StatusTypes;
+import me.darkkir3.wfmodder.utils.ParsableWeapon;
 
 public abstract class BaseWeapon 
 {
+	public BaseWeapon(ParsableWeapon weapon) 
+	{
+		this.accuracy = weapon.accuracy;
+		this.reloadSpeed = weapon.reloadTime;
+		this.magazine = weapon.magazineSize;
+		this.chargeAttack = 0f;
+		this.criticalRate = weapon.criticalChance * 100f;
+		this.criticalDamage = weapon.criticalMultiplier;
+		this.statusChance = weapon.procChance * 100f;
+		this.fireRate  = weapon.fireRate;
+		this.statusDuration = 1f;
+		this.multishot = 1;
+		this.multishotModifier = 1f;
+		this.baseDamage = weapon.calculateBaseDamageTable();
+	}
+	
 	/**
 	 * map status types with their respective base dmg value
 	 */

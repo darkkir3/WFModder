@@ -1,5 +1,9 @@
 package me.darkkir3.wfmodder.utils;
 
+import java.util.HashMap;
+
+import me.darkkir3.wfmodder.status.StatusTypes;
+
 public class ParsableWeapon 
 {
 	public String name;
@@ -20,4 +24,21 @@ public class ParsableWeapon
 	public String type;
 	//https://cdn.warframestat.us/img/${item.imageName}
 	public String imageName;
+	
+	public HashMap<StatusTypes, Float> calculateBaseDamageTable()
+	{
+		HashMap<StatusTypes, Float> damageTable = new HashMap<StatusTypes, Float>();
+		
+		StatusTypes[] statusTypes = StatusTypes.values();
+		
+		for(int i = 0; i < damagePerShot.length; i++)
+		{
+			if(damagePerShot[i] > 0)
+			{
+				damageTable.put(statusTypes[i], damagePerShot[i]);
+			}
+		}
+		
+		return damageTable;
+	}
 }
