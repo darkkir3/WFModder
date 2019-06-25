@@ -12,6 +12,7 @@ public final class DamageUtils
 {
 	private static final Random rand = new Random();
 	
+	private DamageUtils() {}
 	
 	/**Calculates the individual chances for a specific status chance to proc
 	 * @param damageByStatus a hashmap mapping status types with their corresponding damage values
@@ -24,7 +25,7 @@ public final class DamageUtils
 		boolean hasElementals = false;
 		boolean hasPhysicals = false;
 		
-		for(Entry<StatusTypes, Float> entry : weightingMap.entrySet())
+		for(Entry<StatusTypes, Float> entry : damageByStatus.entrySet())
 		{
 			StatusTypes statusType = entry.getKey();
 			
@@ -37,7 +38,7 @@ public final class DamageUtils
 				(hasPhysicals && hasElementals) ? 4f : 1f;
 		
 		float totalDamage = 0f;
-		for(Entry<StatusTypes, Float> entry : weightingMap.entrySet())
+		for(Entry<StatusTypes, Float> entry : damageByStatus.entrySet())
 		{
 			float damageToAdd = entry.getValue();
 			if(entry.getKey().isPhysical())

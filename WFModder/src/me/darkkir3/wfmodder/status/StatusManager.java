@@ -14,7 +14,7 @@ public final class StatusManager
 	{
 		if(statusMap.isEmpty())
 		{
-			statusMap.put(StatusTypes.VIRAL, ViralProc.class);
+			return null;
 		}
 		
 		Class<? extends BaseStatusProc> classToInstantiate = statusMap.get(statusType);

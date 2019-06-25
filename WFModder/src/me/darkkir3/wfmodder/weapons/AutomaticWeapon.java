@@ -36,8 +36,7 @@ public class AutomaticWeapon extends BaseWeapon
 	public AutomaticWeapon(ParsableWeapon weapon)
 	{
 		super(weapon);		
-		this.currentMagazine = this.magazine;
-		this.updateWeaponStats();
+		this.resetWeaponState();
 	}
 	
 	public void updateWeaponStats()
@@ -49,6 +48,13 @@ public class AutomaticWeapon extends BaseWeapon
 		
 		this.currentMagazine = this.magazine;
 		this.statusWeightTable = DamageUtils.calculateStatusWeighting(this.baseDamage);
+	}
+	
+	@Override
+	public void resetWeaponState()
+	{
+		this.currentMagazine = this.magazine;
+		this.updateWeaponStats();
 	}
 	
 	@Override

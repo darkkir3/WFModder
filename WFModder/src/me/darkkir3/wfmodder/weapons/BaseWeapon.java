@@ -77,6 +77,7 @@ public abstract class BaseWeapon
 	 */
 	protected float multishotModifier = 1f;
 	
+	public abstract void resetWeaponState();
 	public abstract void updateWeaponState(Enemy enemy, float currentTime);
 	
 	/**status duration multiplier

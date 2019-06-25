@@ -29,7 +29,7 @@ public class Enemy
 		this.shield = baseShield;
 		this.armor = baseArmor;
 		
-		this.statusProcs = new ArrayList<BaseStatusProc>();
+		this.statusProcs = new ArrayList<>();
 	}
 	
 	public void applyScaling(float baseLevel, float currentLevel)
@@ -110,6 +110,11 @@ public class Enemy
 		this.shieldType = shieldType;
 	}
 	
+	public boolean isAlive()
+	{
+		return this.health > 0f;
+	}
+	
 	public float getMultiplierAgainst(StatusTypes statusType)
 	{
 		float statusTypeMultiplier = 1f;
@@ -148,12 +153,24 @@ public class Enemy
 	public void applyStatus(float timeProcced, StatusTypes statusType, float critMultiplier, boolean isHeadshot, BaseWeapon baseWeapon)
 	{
 		BaseStatusProc statusProc = StatusManager.getStatusProcForStatusType(statusType);
-		statusProc.applyStatus(this, timeProcced, critMultiplier, isHeadshot, baseWeapon);
+		if(statusProc != null)
+		{
+			statusProc.applyStatus(this, timeProcced, critMultiplier, isHeadshot, baseWeapon);
+		}
 	}
 	
 	public void updateEnemy(float currentTime)
 	{
 		//TODO: Call this on each "global" tick
 		this.statusProcs.forEach(T -> {T.updateProc(currentTime);});
+	}
+	
+	public Enemy cloneEnemy()
+	{
+		Enemy cloned = new Enemy(this.getHealth(), this.getShield(), this.getArmor());
+		cloned.healthType = this.healthType;
+		cloned.shieldType = this.shieldType;
+		cloned.armorType = this.armorType;
+		return cloned;
 	}
 }

@@ -15,6 +15,7 @@ import com.google.gson.JsonParser;
 
 public final class WeaponParser 
 {
+	
 	private static JsonArray primaryWeapons;
 	private static JsonArray secondaryWeapons;
 	
