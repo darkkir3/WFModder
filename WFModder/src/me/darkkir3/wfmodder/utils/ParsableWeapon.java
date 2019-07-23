@@ -41,4 +41,9 @@ public class ParsableWeapon
 		
 		return damageTable;
 	}
+	
+	public String getImageURL()
+	{
+		return "https://cdn.warframestat.us/img/" + imageName;
+	}
 }

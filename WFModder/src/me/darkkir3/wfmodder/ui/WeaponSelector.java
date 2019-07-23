@@ -1,7 +1,8 @@
 package me.darkkir3.wfmodder.ui;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -10,7 +11,7 @@ import me.darkkir3.wfmodder.utils.ParsableWeapon;
 import me.darkkir3.wfmodder.utils.WeaponParser;
 import me.darkkir3.wfmodder.weapons.WeaponSlot;
 
-public class WeaponSelector extends JComboBox<String> implements ActionListener
+public class WeaponSelector extends JComboBox<String> implements ItemListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -23,7 +24,7 @@ public class WeaponSelector extends JComboBox<String> implements ActionListener
 	public WeaponSelector(WeaponSlot weaponSlot, ActionListener listener)
 	{
 		this.weaponSlot = weaponSlot;
-		this.addActionListener(this);
+		this.addItemListener(this);
 		if(listener != null)
 		{
 			this.addActionListener(listener);
@@ -32,6 +33,11 @@ public class WeaponSelector extends JComboBox<String> implements ActionListener
 		ArrayList<String> weaponsToDisplay = WeaponParser.fetchWeaponNamesBySlot(this.weaponSlot);
 		weaponsToDisplay.sort(null);
 		weaponsToDisplay.forEach(t -> this.addItem(t));
+		
+		if(weaponsToDisplay != null)
+		{
+			this.selectedItemReminder = WeaponParser.fetchWeapon(weaponsToDisplay.get(0));
+		}
 		
 		this.setRenderer(new WeaponSelectorRenderer());
 	}
@@ -45,14 +51,18 @@ public class WeaponSelector extends JComboBox<String> implements ActionListener
 	{
 		return this.selectedWeapon;
 	}
-	
+
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void itemStateChanged(ItemEvent e) 
 	{
-		String selectedWeaponName = (String)this.getSelectedItem();
-		if(selectedWeaponName != null && !selectedWeaponName.trim().isEmpty())
+		if (e.getStateChange() == ItemEvent.SELECTED)
 		{
-			this.selectedWeapon = WeaponParser.fetchWeapon(selectedWeaponName);
-		}
+			String selectedWeaponName = (String)this.getSelectedItem();
+			if(selectedWeaponName != null && !selectedWeaponName.trim().isEmpty())
+			{
+				this.selectedWeapon = WeaponParser.fetchWeapon(selectedWeaponName);
+			}
+	          
+	    }      
 	}
 }

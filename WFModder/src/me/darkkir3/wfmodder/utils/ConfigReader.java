@@ -41,4 +41,14 @@ public final class ConfigReader
 	{
 		return Float.valueOf(ConfigReader.readConfigS(key));
 	}
+	
+	/**Reads the current lang file
+	 * @param key
+	 * @return
+	 */
+	public static String readLangFile(String key)
+	{
+		//TODO: read string values from lang viles
+		return key;
+	}
 }
