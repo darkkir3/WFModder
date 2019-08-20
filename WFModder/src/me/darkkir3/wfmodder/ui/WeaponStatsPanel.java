@@ -31,6 +31,9 @@ public class WeaponStatsPanel extends JPanel
 	private final String critical_chance;
 	private final String critical_multiplier;
 	private final String fire_rate;
+	private final String magazine;
+	private final String reload;
+	private final String status;
 	
 	private BufferedImage weaponImage;
 	
@@ -43,6 +46,9 @@ public class WeaponStatsPanel extends JPanel
         critical_chance = ConfigReader.readLangFile("critical_chance");
         critical_multiplier = ConfigReader.readLangFile("critical_multiplier");
         fire_rate = ConfigReader.readLangFile("fire_rate");
+        magazine = ConfigReader.readLangFile("magazine");
+        reload = ConfigReader.readLangFile("reload");
+        status = ConfigReader.readLangFile("status");
     }
 	
 	public void setWeaponToDisplay(ParsableWeapon weapon)
@@ -77,7 +83,7 @@ public class WeaponStatsPanel extends JPanel
 
     public Dimension getPreferredSize() 
     {
-        return new Dimension(250, 250);
+        return new Dimension(250, 350);
     }
 
     public void paintComponent(Graphics g) 
@@ -93,7 +99,7 @@ public class WeaponStatsPanel extends JPanel
         int currentPosY = 2 * marginY;
         int fontHeight = g2d.getFontMetrics().getHeight();
         
-        int textSizeY = currentPosY + (fontHeight + offsetY) * 4;
+        int textSizeY = currentPosY + (fontHeight + offsetY) * 7;
         int imageSize = this.getHeight() - (textSizeY);
         
         g2d.drawImage(this.weaponImage, (this.getWidth() / 2) - (imageSize / 2), textSizeY, imageSize, imageSize, null);
@@ -109,21 +115,24 @@ public class WeaponStatsPanel extends JPanel
         this.drawStatLine(g2d, marginX, currentPosY, critical_multiplier, weaponToDisplay.criticalMultiplier, "x");
         currentPosY += fontHeight + offsetY;
         this.drawStatLine(g2d, marginX, currentPosY, fire_rate, weaponToDisplay.fireRate, "");
-        
-        
+        currentPosY += fontHeight + offsetY;
+        this.drawStatLine(g2d, marginX, currentPosY, magazine, weaponToDisplay.magazineSize, "");
+        currentPosY += fontHeight + offsetY;
+        this.drawStatLine(g2d, marginX, currentPosY, reload, weaponToDisplay.reloadTime, "");
+        currentPosY += fontHeight + offsetY;
+        this.drawStatLine(g2d, marginX, currentPosY, status, weaponToDisplay.procChance * 100f, "%");
     }  
     
     private void drawStatLine(Graphics2D g2d, int startX, int startY, String valueName, Object value, String append)
     {
     	String valueToDraw = null;
-    	if(value instanceof String)
+    	if(value instanceof String || value instanceof Integer)
     	{
-    		valueToDraw = (String)value;
+    		valueToDraw = value.toString();
     	}
-    	
-    	if(value instanceof Number)
+    	else if(value instanceof Number)
     	{
-    		valueToDraw = String.valueOf(Math.round((float)value * 100.0) / 100.0);
+    		valueToDraw = String.valueOf(Math.round(((Number)value).floatValue() * 100.0) / 100.0);
     	}
     	
     	int width = this.getWidth();

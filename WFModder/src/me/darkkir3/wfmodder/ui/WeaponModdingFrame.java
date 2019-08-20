@@ -55,6 +55,7 @@ public class WeaponModdingFrame extends JFrame
 		
 		
 		this.getContentPane().add(weaponSelectPanel, BorderLayout.NORTH);
+		this.pack();
 		
 		this.setVisible(true);
 	}
